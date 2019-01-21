@@ -2,6 +2,21 @@ import React from 'react';
 import Cartao from './cartao';
 
 class ListaCartao extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { clicks: 0 };
+        this.addClicks = this.addClicks.bind(this);
+    }
+
+    addClicks() {
+        // this.setState({clicks: this.state.clicks + 1});
+        this.setState((prevState) => ({
+            clicks: prevState.clicks + 1
+        }));
+    }
+
+
     render() {
         let noticias = [
             { titulo: 'Tetse 2', descricao: 'descricao teste 2', detalhe: 'detalhe teste 2', imagem: 'https://materializecss.com/images/office.jpg', link: '#teste' },
@@ -30,22 +45,25 @@ class ListaCartao extends React.Component {
             }
         }
 
-        let tamanhoCol = "col m" + this.props.tamanhoCol
-        let listaCartoes = function (grupo) {
+        let tamanhoCol = "col m" + this.props.tamanhoCol;
+
+
+
+        let listaCartoes = function (grupo, self) {
             return grupo.map(function (item, index) {
                 return (
                     <div key={index} className={tamanhoCol}>
-                        <Cartao dados={item} />
+                        <Cartao dados={item} addClicks={self.addClicks} />
                     </div>
                 );
             });
         };
 
-
+        let self = this;
         let linha = novaLista.map(function (grupo, index) {
             return (
                 <div key={index} className="row">
-                    {listaCartoes(grupo)}
+                    {listaCartoes(grupo, self)}
                 </div>
             );
         });
@@ -53,6 +71,7 @@ class ListaCartao extends React.Component {
 
         return (
             <div className="row">
+                <p>Quantidade de clicks = {this.state.clicks}</p>
                 {linha}
             </div>
         );
