@@ -1,8 +1,30 @@
-import React from  'react';
+import React from 'react';
 
-class Titulo extends React.Component{
-    render(){
-        return (<h1>Iniciando a gambiarra</h1>);
+class Titulo extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { hora: new Date() };
+    }
+
+
+    componentDidMount() {
+        this.horaID = setInterval(
+            () => this.atualizarSegundos(),
+            1000
+        );
+    }
+
+    atualizarSegundos() {
+        this.setState({ hora: new Date() });
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.horaID)
+    }
+
+    render() {
+        return (<h1>Iniciando a gambiarra {this.state.hora.toLocaleTimeString()}</h1>);
     }
 }
 
